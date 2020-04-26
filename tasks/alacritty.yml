@@ -1,0 +1,24 @@
+---
+
+- name: ensure proper config directory
+  stat:
+    path: "{{ home_directory }}/.config/alacritty"
+  register: alacritty_folder
+
+- name: echo if directory doesnt exist
+  debug:
+    msg: alacritty directory doesnt exist
+  when: not alacritty_folder.stat.exists
+
+- name: create alacritty config directory
+  file:
+    path: "{{ home_directory }}/.config/alacritty"
+    state: directory
+    mode: 0755
+  when: not alacritty_folder.stat.exists
+
+- name: "copy config file"
+  copy:
+    src: "{{ working_directory }}/dotfiles/alacritty.yml"
+    dest: "{{ home_directory }}/.config/alacritty/alacritty.yml"
+    mode: 0755

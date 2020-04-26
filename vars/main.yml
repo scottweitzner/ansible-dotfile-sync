@@ -1,0 +1,4 @@
+---
+# vars file for scottweitzner.dotfile-sync
+
+home_directory: "{{ lookup('env', 'HOME') }}"

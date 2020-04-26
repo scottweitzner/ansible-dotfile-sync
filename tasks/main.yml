@@ -1,0 +1,25 @@
+---
+# tasks file for scottweitzner.dotfile-sync
+
+- name: register working directory path
+  stat: 
+    path: "{{ working_directory }}"
+  register: work_dir_path
+  tags:
+    - always 
+
+# TODO: potentially fail if dir exists
+- name: initialize the git repo
+  git:
+    repo: git@gitlab.com:sweitzne/dotfiles.git
+    dest: "{{ working_directory }}/dotfiles"
+    clone: yes
+    recursive: yes
+  tags: 
+    - never
+    - init
+
+- name: setup alacritty dotfiles
+  include: alacritty.yml
+  tags:
+    - down
