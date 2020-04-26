@@ -1,0 +1,39 @@
+
+- name: ensure proper config directory
+  block:
+    # register the directory
+    - name: directory exists
+      stat:
+        path: "{{ dotfile_directory }}"
+      register: dotfile_directory_stat
+
+    # directory exists   
+    - name: echo if base config exists
+      debug:
+        msg: base config directory exists
+      when: dotfile_directory_stat.stat.exists  
+
+    # directory doesnt exist  
+    - name: echo if base config directory doesnt exist
+      debug:
+        msg: base config directory doesnt exist
+      when: not dotfile_directory_stat.stat.exists   
+
+    # create dir since it doesnt exist
+    - name: creating directory...
+      file:
+        path: "{{ dotfile_directory }}"
+        state: directory
+        mode: 0755
+      when: not dotfile_directory_stat.stat.exists
+
+  when: dotfile_directory is defined
+
+# link the file
+- name: soft linking config file...
+  file:
+    state: link
+    src: "{{ working_directory }}/dotfiles/{{ file_name }}"
+    dest: "{{ dotfile_directory | default('') }}/{{ file_name }}"
+    mode: 0755
+    force: yes

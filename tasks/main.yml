@@ -1,13 +1,6 @@
 ---
 # tasks file for scottweitzner.dotfile-sync
 
-- name: register working directory path
-  stat: 
-    path: "{{ working_directory }}"
-  register: work_dir_path
-  tags:
-    - always 
-
 # TODO: potentially fail if dir exists
 - name: initialize the git repo
   git:
@@ -19,7 +12,21 @@
     - never
     - init
 
-- name: setup alacritty dotfiles
-  include: alacritty.yml
+- name: link alacritty
+  include: link.yml
+  vars:
+    dotfile_directory: "{{ home_directory }}/.config/alacritty"
+    file_name: alacritty.yml
   tags:
-    - down
+    - never
+    - link
+
+- name: link ohmyzsh theme
+  include: link.yml
+  vars:
+    dotfile_directory: "{{ home_directory }}/.oh-my-zsh/themes"
+    file_name: sweitzne.zsh-theme
+  tags:
+    - never
+    - link
+
