@@ -1,38 +1,68 @@
-Role Name
+scottweitzner.dotfile-sync
 =========
 
-A brief description of the role goes here.
+Manage your dotfiles without thinking about symlinks  
+This handles the linking process, you handle the pushes to your repo
 
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
+---
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+``` yaml
+working_directory: "{{ home_directory }}"
+```
+the working directory to pull your git repo into and link dotfiles from
 
-Dependencies
-------------
+<br/>
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+
+```yaml
+dotfiles_git_repo: git@github.com:scottweitzner/ansible-dotfile-sync.git
+```
+the git repo where your dotfiles are stored
+
+<br/>
+
+``` yaml
+files_to_sync:
+- name: alacritty.yml
+  file_name: alacritty.yml
+  dest: .config/alacritty
+```
+list of files to sync. must include `name` and `file_name` but `dest` is optional
+
+Note: 
+- base directory for file_name is working_directory/dotfiles (found here)
+- base dirctory for dest is home_directory (found in vars/main.yml)
+
+
+---
+
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+``` yaml
+---
+- hosts: localhost
+  roles:
+    - role: ansible-dotfile-sync
+      vars:
+        working_directory: /Users/me 
+        dotfiles_git_repo: git@github.com:me/dotfiles.git
+        files_to_sync:
+        - name: zsh
+          file_name: .zshrc
+        - name: alacritty.yml
+          file_name: alacritty.yml
+          dest: .config/alacritty
+
+
+```
+---
 
 License
 -------
 
 BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

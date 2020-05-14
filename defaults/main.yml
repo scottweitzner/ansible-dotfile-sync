@@ -3,7 +3,7 @@
 
 # workdir to clone the git repo in
 working_directory: "{{ home_directory }}"
-dotfiles_git_repo: git@gitlab.com:sweitzne/dotfiles.git
+dotfiles_git_repo: git@github.com:scottweitzner/dotfiles.git
 
 # note that link.yml assumes the following:
 # - base directory for file_name is working_directory/dotfiles (found here)
