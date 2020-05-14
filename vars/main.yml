@@ -1,8 +1,5 @@
 ---
 # vars file for scottweitzner.dotfile-sync
 
-# workdir to clone the git repo in
-working_directory: /Users/ScottWeitzner/dev
-
 # $HOME
 home_directory: "{{ lookup('env', 'HOME') }}"
