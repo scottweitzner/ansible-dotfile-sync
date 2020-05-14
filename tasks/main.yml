@@ -13,10 +13,12 @@
     - init
 
 - name: link dotfiles
-  include: link.yml
-  vars:
-    with_items:
-      files_to_sync
+  include_tasks: 
+    file: link.yml
+    apply:
+        tags:
+          - always
+  with_items: "{{ files_to_sync }}"
   tags:
     - never
     - link

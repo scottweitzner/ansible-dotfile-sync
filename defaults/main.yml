@@ -2,13 +2,13 @@
 # defaults file for scottweitzner.dotfile-sync
 
 # workdir to clone the git repo in
-working_directory: /Users/ScottWeitzner/dev
+working_directory: "{{ home_directory }}"
 dotfiles_git_repo: git@gitlab.com:sweitzne/dotfiles.git
 
 # note that link.yml assumes the following:
-# - base directory for src is working_directory (found here)
+# - base directory for file_name is working_directory/dotfiles (found here)
 # - base dirctory for dest is home_directory (found in vars/main.yml)
 files_to_sync:
-  - name: alacritty.yml
-    src: alacritty.yml
-    dest: .config/alacritty/alacritty.yml
+- name: alacritty.yml
+  file_name: alacritty.yml
+  dest: .config/alacritty
